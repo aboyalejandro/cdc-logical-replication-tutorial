@@ -11,4 +11,8 @@ run:
 
 # Stop the Docker services
 stop:
-	docker compose down
+	$(DOCKER_COMPOSE) down --volumes
+
+# Clean Docker containers, images, and volumes
+clean: stop
+	$(DOCKER_COMPOSE) down --rmi all --volumes --remove-orphans
