@@ -1,0 +1,47 @@
+services:
+  source_db:
+    image: postgres:13
+    environment:
+      POSTGRES_SOURCE_USER: ${POSTGRES_SOURCE_USER}
+      POSTGRES_SOURCE_PASSWORD: ${POSTGRES_SOURCE_PASSWORD}
+      POSTGRES_SOURCE_DB: ${POSTGRES_SOURCE_DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - source_data:/var/lib/postgresql/data
+
+  target_db:
+    image: postgres:13
+    environment:
+      POSTGRES_TARGET_USER: ${POSTGRES_TARGET_USER}
+      POSTGRES_TARGET_PASSWORD: ${POSTGRES_TARGET_PASSWORD}
+      POSTGRES_TARGET_DB: ${POSTGRES_TARGET_DB_NAME}
+    ports:
+      - "5433:5432"
+    volumes:
+      - target_data:/var/lib/postgresql/data
+
+  generate_data:
+    build: .
+    env_file:
+      - .env
+    environment:
+      - NUM_RECORDS=${NUM_RECORDS}
+    depends_on:
+      - source_db
+      - target_db
+    volumes:
+      - ./:/app
+
+  python_scripts:
+    build: .
+    env_file:
+      - .env
+    depends_on:
+      - source_db
+    volumes:
+      - ./:/app
+
+volumes:
+  source_data:
+  target_data:
