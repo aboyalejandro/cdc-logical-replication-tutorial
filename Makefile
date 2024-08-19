@@ -16,3 +16,15 @@ stop:
 # Clean Docker containers, images, and volumes
 clean: stop
 	$(DOCKER_COMPOSE) down --rmi all --volumes --remove-orphans
+
+# Insert data into the source database
+insert-data:
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/insert_data.py
+
+# Update data in the source database
+update-data:
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/update_data.py
+
+# Delete data from the source database
+delete-data:
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/delete_data.py

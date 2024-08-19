@@ -31,6 +31,7 @@ def generate_user_profile():
         "phone_number": fake.phone_number(),
         "dob": fake.date_of_birth(minimum_age=18, maximum_age=90),
         "created_at": fake.date_time_this_decade(),
+        "updated_at": pd.Timestamp.now(),
     }
     logging.debug(f"Generated user profile: {profile}")
     return profile
@@ -46,6 +47,7 @@ def generate_product():
         "stock": random.randint(0, 500),
         "description": fake.text(max_nb_chars=200),
         "created_at": fake.date_time_this_year(),
+        "updated_at": pd.Timestamp.now(),
     }
     logging.debug(f"Generated product: {product}")
     return product
@@ -61,6 +63,7 @@ def generate_transaction(user_ids, product_ids):
         "transaction_type": random.choice(["Credit", "Debit"]),
         "date": fake.date_time_this_year(),
         "description": fake.sentence(nb_words=6),
+        "updated_at": pd.Timestamp.now(),
     }
     logging.debug(f"Generated transaction: {transaction}")
     return transaction

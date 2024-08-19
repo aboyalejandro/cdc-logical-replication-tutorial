@@ -30,12 +30,25 @@ services:
     env_file:
       - .env
     environment:
-      - NUM_RECORDS=${NUM_RECORDS:-1000}
+      - NUM_RECORDS=${NUM_RECORDS:-5000}
     depends_on:
       - source_db
       - target_db
     volumes:
       - ./:/app
+
+  cdc_scripts: 
+    build:
+      context: .
+      dockerfile: ./scripts/Dockerfile
+    env_file:
+      - .env
+    environment:
+      - NUM_RECORDS=${NUM_RECORDS:-10}
+    depends_on:
+      - source_db
+    volumes:
+      - ./scripts:/app/scripts
 
 volumes:
   source_data:
