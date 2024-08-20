@@ -28,3 +28,15 @@ update-data:
 # Delete data from the source database
 delete-data:
 	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/delete_data.py
+
+# Truncate a table from the source database
+truncate:
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/truncate_table.py
+
+# Creates a table in the source database
+create-table:
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/create_table.py
+
+# Drops a table from the source database
+drop-table:
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/drop_table.py
