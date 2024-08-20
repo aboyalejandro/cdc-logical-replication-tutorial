@@ -43,6 +43,7 @@ def insert_product(conn, num_records):
                 ),
             )
     conn.commit()
+    logging.info(f"Inserted {num_records} records in products table.")
 
 
 def insert_transaction(conn, num_records):
@@ -65,6 +66,7 @@ def insert_transaction(conn, num_records):
                 ),
             )
     conn.commit()
+    logging.info(f"Inserted {num_records} records in transactions table.")
 
 
 def insert_user_profile(conn, num_records):
@@ -88,15 +90,13 @@ def insert_user_profile(conn, num_records):
                 ),
             )
     conn.commit()
+    logging.info(f"Inserted {num_records} records in user_profiles table.")
 
 
 if __name__ == "__main__":
     conn = connect_to_db()
     num_records = int(os.getenv("NUM_RECORDS", 10))
-    insert_product(conn, num_records)
-    insert_transaction(conn, num_records)
-    insert_user_profile(conn, num_records)
+    insert_product(conn, random.randint(1, num_records))
+    insert_transaction(conn, random.randint(1, num_records))
+    insert_user_profile(conn, random.randint(1, num_records))
     conn.close()
-    logging.info(
-        f"Inserted {num_records} records in each table: products, user_profiles, and transactions."
-    )

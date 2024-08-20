@@ -1,6 +1,7 @@
 import psycopg2
 import os
 import logging
+import random
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -28,6 +29,7 @@ def delete_products(conn, num_records):
             (num_records,),
         )
     conn.commit()
+    logging.info(f"Deleted {num_records} records in products table.")
 
 
 def delete_transactions(conn, num_records):
@@ -37,6 +39,7 @@ def delete_transactions(conn, num_records):
             (num_records,),
         )
     conn.commit()
+    logging.info(f"Deleted {num_records} records in transactions table.")
 
 
 def delete_user_profiles(conn, num_records):
@@ -46,15 +49,13 @@ def delete_user_profiles(conn, num_records):
             (num_records,),
         )
     conn.commit()
+    logging.info(f"Deleted {num_records} records in user_profiles table.")
 
 
 if __name__ == "__main__":
     conn = connect_to_db()
     num_records = int(os.getenv("NUM_RECORDS", 10))
-    delete_products(conn, num_records)
-    delete_transactions(conn, num_records)
-    delete_user_profiles(conn, num_records)
+    delete_products(conn, random.randint(1, num_records))
+    delete_transactions(conn, random.randint(1, num_records))
+    delete_user_profiles(conn, random.randint(1, num_records))
     conn.close()
-    logging.info(
-        f"Deleted {num_records} records in each table: products, user_profiles, and transactions."
-    )

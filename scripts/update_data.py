@@ -39,6 +39,7 @@ def update_product(conn, num_records):
                 (random.uniform(10, 1000), random.randint(0, 1000), product_id[0]),
             )
     conn.commit()
+    logging.info(f"Updated {num_records} records in products table.")
 
 
 def update_user_profile(conn, num_records):
@@ -62,6 +63,7 @@ def update_user_profile(conn, num_records):
                 ),
             )
     conn.commit()
+    logging.info(f"Updated {num_records} records in user_profiles table.")
 
 
 def update_transaction(conn, num_records):
@@ -87,15 +89,13 @@ def update_transaction(conn, num_records):
                 ),
             )
     conn.commit()
+    logging.info(f"Updated {num_records} records in transactions table.")
 
 
 if __name__ == "__main__":
     conn = connect_to_db()
     num_records = int(os.getenv("NUM_RECORDS", 10))
-    update_product(conn, num_records)
-    update_user_profile(conn, num_records)
-    update_transaction(conn, num_records)
+    update_product(conn, random.randint(1, num_records))
+    update_user_profile(conn, random.randint(1, num_records))
+    update_transaction(conn, random.randint(1, num_records))
     conn.close()
-    logging.info(
-        f"Updated {num_records} records in each table: products, user_profiles, and transactions."
-    )
