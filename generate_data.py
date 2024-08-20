@@ -2,7 +2,20 @@ import os
 import pandas as pd
 import random
 from faker import Faker
-from sqlalchemy import create_engine
+from sqlalchemy import (
+    create_engine,
+    Table,
+    Column,
+    Integer,
+    String,
+    Text,
+    Numeric,
+    Date,
+    TIMESTAMP,
+    MetaData,
+)
+from sqlalchemy.sql import text
+from sqlalchemy.exc import SQLAlchemyError
 import logging
 from dotenv import load_dotenv
 

@@ -15,4 +15,4 @@ COPY generate_data.py .
 COPY .env .
 
 # Run historical_data.py when the container launches
-CMD ["python", "generate_data.py"]
+CMD ["sh", "-c", "python generate_data.py && python add_pks.py"]
