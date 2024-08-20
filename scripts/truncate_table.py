@@ -11,16 +11,6 @@ load_dotenv()
 logging_setup()
 
 
-def connect_to_db():
-    return psycopg2.connect(
-        dbname=os.getenv("POSTGRES_SOURCE_DB_NAME"),
-        user=os.getenv("POSTGRES_SOURCE_USER"),
-        password=os.getenv("POSTGRES_SOURCE_PASSWORD"),
-        host=os.getenv("POSTGRES_SOURCE_HOST"),
-        port=5432,
-    )
-
-
 def truncate_random_table(conn):
     with conn.cursor() as cur:
         # Query to get all user-created tables in the public schema
