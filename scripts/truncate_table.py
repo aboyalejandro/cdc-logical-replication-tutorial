@@ -30,6 +30,6 @@ def truncate_random_table(conn):
 
 
 if __name__ == "__main__":
-    conn = connect_to_db()
+    conn = connect_to_db("SOURCE")
     truncate_random_table(conn)
     conn.close()

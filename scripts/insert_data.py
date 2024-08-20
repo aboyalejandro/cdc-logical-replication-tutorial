@@ -82,7 +82,7 @@ def insert_user_profile(conn, num_records):
 
 
 if __name__ == "__main__":
-    conn = connect_to_db()
+    conn = connect_to_db("SOURCE")
     num_records = int(os.getenv("NUM_RECORDS", 10))
     insert_product(conn, random.randint(1, num_records))
     insert_transaction(conn, random.randint(1, num_records))

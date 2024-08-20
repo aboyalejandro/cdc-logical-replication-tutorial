@@ -41,7 +41,7 @@ def delete_user_profiles(conn, num_records):
 
 
 if __name__ == "__main__":
-    conn = connect_to_db()
+    conn = connect_to_db("SOURCE")
     num_records = int(os.getenv("NUM_RECORDS", 10))
     delete_products(conn, random.randint(1, num_records))
     delete_transactions(conn, random.randint(1, num_records))

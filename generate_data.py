@@ -105,9 +105,6 @@ def get_db_url(prefix):
 source_db_url = get_db_url("SOURCE")
 target_db_url = get_db_url("TARGET")
 
-logging.info(f"Interpolated SOURCE_DATABASE_URL: {source_db_url}")
-logging.info(f"Interpolated TARGET_DATABASE_URL: {target_db_url}")
-
 # Create database engines
 source_engine = create_engine(source_db_url)
 target_engine = create_engine(target_db_url)

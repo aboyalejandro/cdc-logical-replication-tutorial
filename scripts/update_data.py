@@ -81,7 +81,7 @@ def update_transaction(conn, num_records):
 
 
 if __name__ == "__main__":
-    conn = connect_to_db()
+    conn = connect_to_db("SOURCE")
     num_records = int(os.getenv("NUM_RECORDS", 10))
     update_product(conn, random.randint(1, num_records))
     update_user_profile(conn, random.randint(1, num_records))
