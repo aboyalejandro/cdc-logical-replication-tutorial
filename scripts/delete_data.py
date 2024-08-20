@@ -3,23 +3,11 @@ import os
 import logging
 import random
 from dotenv import load_dotenv
+from utils import connect_to_db
+from utils import logging_setup
 
 load_dotenv()
-
-# Set up logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-)
-
-
-def connect_to_db():
-    return psycopg2.connect(
-        dbname=os.getenv("POSTGRES_SOURCE_DB_NAME"),
-        user=os.getenv("POSTGRES_SOURCE_USER"),
-        password=os.getenv("POSTGRES_SOURCE_PASSWORD"),
-        host=os.getenv("POSTGRES_SOURCE_HOST"),
-        port=5432,
-    )
+logging_setup()
 
 
 def delete_products(conn, num_records):

@@ -4,6 +4,7 @@ import random
 from dotenv import load_dotenv
 from utils import connect_to_db
 from utils import logging_setup
+from utils import find_tables
 
 load_dotenv()
 logging_setup()
@@ -12,12 +13,7 @@ logging_setup()
 def drop_random_table(conn):
     with conn.cursor() as cur:
         # Query to get all user-created tables in the public schema
-        cur.execute(
-            """
-            SELECT table_name FROM information_schema.tables 
-            WHERE table_schema = 'public' AND table_type = 'BASE TABLE';
-        """
-        )
+        cur.execute(find_tables())
         tables = cur.fetchall()
 
         if not tables:
