@@ -40,3 +40,7 @@ create-table:
 # Drops a table from the source database
 drop-table:
 	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/drop_table.py
+
+# Adds a column to a table from the source database
+add-column:
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/add_column.py
