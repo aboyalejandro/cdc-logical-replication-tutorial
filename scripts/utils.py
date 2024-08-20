@@ -1,7 +1,6 @@
 import psycopg2
 import os
 import logging
-from dotenv import load_dotenv
 
 
 def connect_to_db(db: str):
