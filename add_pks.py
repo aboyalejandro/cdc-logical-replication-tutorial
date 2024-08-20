@@ -16,8 +16,6 @@ def add_id_column(conn):
         )
         tables = cur.fetchall()
 
-        logging.info(f"Tables in the database: {tables}")
-
         for table in tables:
             table_name = table[0]
             try:
