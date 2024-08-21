@@ -43,10 +43,7 @@ def cdc_setup(db, conn):
                 )
                 publication_exists = cur.fetchone()
                 if not publication_exists:
-                    # cur.execute("CREATE PUBLICATION cdc_tutorial_pub FOR ALL TABLES;")
-                    cur.execute(
-                        "CREATE PUBLICATION cdc_tutorial_pub FOR TABLE public.products;"
-                    )
+                    cur.execute("CREATE PUBLICATION cdc_tutorial_pub FOR ALL TABLES;")
 
                 conn.commit()
                 logging.info(

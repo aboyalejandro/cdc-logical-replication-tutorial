@@ -71,7 +71,7 @@ select max(updated_at) from transactions t ;
 
 ## 🔨 Break the replication: 
 
-Note: You might want to run make clean, make build and make run to restart the project if you want to keep testing.
+Note: Note that the scripts is limited to truncate, drop, insert, update or delete `transactions`, `products` and `user_profiles`. If you ended up dropping all the tables, you can do Ctrl+C and `make restart`to spin-up the project again. 
 
 ```sh
 make create-table # will be ignored, replication will continue

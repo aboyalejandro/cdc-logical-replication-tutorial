@@ -11,7 +11,27 @@ load_dotenv()
 logging_setup()
 
 
+def table_exists(conn, table_name):
+    """Check if a table exists in the database."""
+    with conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT EXISTS (
+                SELECT 1
+                FROM information_schema.tables
+                WHERE table_schema = 'public'
+                AND table_name = %s
+            )
+            """,
+            (table_name,),
+        )
+        return cur.fetchone()[0]
+
+
 def update_product(conn, num_records):
+    if not table_exists(conn, "products"):
+        logging.warning("Table 'products' does not exist. Skipping update...")
+        return
     with conn.cursor() as cur:
         cur.execute(
             "SELECT product_id FROM products ORDER BY RANDOM() LIMIT %s", (num_records,)
@@ -31,6 +51,9 @@ def update_product(conn, num_records):
 
 
 def update_user_profile(conn, num_records):
+    if not table_exists(conn, "user_profiles"):
+        logging.warning("Table 'user_profiles' does not exist. Skipping update...")
+        return
     with conn.cursor() as cur:
         cur.execute(
             "SELECT user_id FROM user_profiles ORDER BY RANDOM() LIMIT %s",
@@ -55,6 +78,9 @@ def update_user_profile(conn, num_records):
 
 
 def update_transaction(conn, num_records):
+    if not table_exists(conn, "transactions"):
+        logging.warning("Table 'transactions' does not exist. Skipping update...")
+        return
     with conn.cursor() as cur:
         cur.execute(
             "SELECT transaction_id FROM transactions ORDER BY RANDOM() LIMIT %s",

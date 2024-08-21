@@ -13,7 +13,27 @@ logging_setup()
 fake = Faker()
 
 
+def table_exists(conn, table_name):
+    """Check if a table exists in the database."""
+    with conn.cursor() as cur:
+        cur.execute(
+            """
+            SELECT EXISTS (
+                SELECT 1
+                FROM information_schema.tables
+                WHERE table_schema = 'public'
+                AND table_name = %s
+            )
+            """,
+            (table_name,),
+        )
+        return cur.fetchone()[0]
+
+
 def insert_product(conn, num_records):
+    if not table_exists(conn, "products"):
+        logging.warning("Table 'products' does not exist. Skipping insert...")
+        return
     with conn.cursor() as cur:
         for _ in range(num_records):
             cur.execute(
@@ -37,6 +57,9 @@ def insert_product(conn, num_records):
 
 
 def insert_transaction(conn, num_records):
+    if not table_exists(conn, "transactions"):
+        logging.warning("Table 'transactions' does not exist. Skipping insert...")
+        return
     with conn.cursor() as cur:
         for _ in range(num_records):
             cur.execute(
@@ -60,6 +83,9 @@ def insert_transaction(conn, num_records):
 
 
 def insert_user_profile(conn, num_records):
+    if not table_exists(conn, "user_profiles"):
+        logging.warning("Table 'user_profiles' does not exist. Skipping insert...")
+        return
     with conn.cursor() as cur:
         for _ in range(num_records):
             cur.execute(
