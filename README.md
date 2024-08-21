@@ -37,9 +37,9 @@ make cdc-logical-replication
 This scripts will run INSERT, UPDATE, DELETE to the 3 generated tables on initialization.  
 
 ```sh 
-NUM_RECORDS=50 make insert-data 
-NUM_RECORDS=50 make delete-data
-NUM_RECORDS=50 make update-data
+NUM_RECORDS=500 make insert-data 
+NUM_RECORDS=500 make delete-data
+NUM_RECORDS=500 make update-data
 make truncate
 ```
 
@@ -66,20 +66,20 @@ Count rows after inserts or deletes:
 
 ```sql
 select count(*) from products;
-select count(*) from user_profiles up ;
-select count(*) from transactions t ;
+select count(*) from user_profiles;
+select count(*) from transactions;
 ```
 Validate updates:
 
 ```sql
 select max(updated_at) from products;
-select max(updated_at) from user_profiles up ;
-select max(updated_at) from transactions t ;
+select max(updated_at) from user_profiles;
+select max(updated_at) from transactions;
 ```
 
 ## 🔨 Break the replication: 
 
-Note: The scripts is limited to truncate, drop, insert, update or delete `transactions`, `products` and `user_profiles`. If you ended up dropping all the tables, you can do Ctrl+C and `make restart` to spin-up the project again. 
+Note: The scripts are limited to `TRUNCATE`, `DROP`, `INSERT`, `UPDATE` or `DELETE` `transactions`, `products` and `user_profiles`. `CREATE TABLE` will add a new table randomly. If you ended up dropping all the tables, you can do Ctrl+C and `make restart` to spin-up the project again. 
 
 ```sh
 make create-table # will be ignored, replication will continue
