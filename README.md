@@ -46,7 +46,8 @@ make truncate
 
 Or you can run the commands yourself if you prefer.
 
-## ✅ Check (Source):
+## ✅ Check with queries (Source):
+To query databases like to use DBeaver, but you can use VSCode or psql if you prefer. 
 Validate the CDC is OK on the Source/Publisher side. You should see the listed tables you are replicating and the `cdc_tutorial_slot`:
 
 ```sql
@@ -54,7 +55,7 @@ select * from pg_publication_tables;
 select * from pg_replication_slots;
 ```
 
-## ✅ Check (Target):
+## ✅ Check with queries (Target):
 
 Validate the CDC is OK on the Target/Subscriber side. You should see the listed subscription and the released changes in real-time on each table:
 
