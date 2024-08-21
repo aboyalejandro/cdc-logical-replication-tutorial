@@ -14,9 +14,8 @@ You can find pre-made scripts to run inserts, deletes and updates just by passin
 
 - You need PRIMARY KEYs on the TABLES you want to replicate. Not views.
 - By default, it will do a full snapshot or the current table. You can disable this by using `copy_data=false` in [`cdc_logical_replication.py`](https://github.com/aboyalejandro/change_data_capture_tutorial/blob/dfbd3f8201989c58e48425d5be4c7afd2a4cf57f/scripts/cdc_logical_replication.py#L59).
-- INSERT, UPDATE, DELETE, TRUNCATE work good.
-It doesn’t replicate the schema or DDL nor sequences.
-- If you have ALL TABLES included in your publication and you create a table, you need to also to it on the target database. Otherwise it will just ignore it. 
+- INSERT, UPDATE, DELETE, TRUNCATE work properly. It doesn’t replicate the schema or DDL nor sequences.
+- If you have ALL TABLES included in your publication and you create a table, you need to also add it on the target database, otherwise it will just ignore it. 
 - Schema changes are ignored. Adding or dropping columns will do nothing. Afterwards the replication will be broken.
 
 To run the project, you can do: 
