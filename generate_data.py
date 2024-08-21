@@ -2,20 +2,7 @@ import os
 import pandas as pd
 import random
 from faker import Faker
-from sqlalchemy import (
-    create_engine,
-    Table,
-    Column,
-    Integer,
-    String,
-    Text,
-    Numeric,
-    Date,
-    TIMESTAMP,
-    MetaData,
-)
-from sqlalchemy.sql import text
-from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import create_engine
 import logging
 from dotenv import load_dotenv
 
@@ -73,7 +60,7 @@ def generate_transaction(user_ids, product_ids):
         "user_id": random.choice(user_ids),  # Use a user_id from the user_profiles
         "product_id": random.choice(product_ids),  # Use a product_id from the products
         "amount": round(random.uniform(10, 10000), 2),
-        "transaction_type": random.choice(["Credit", "Debit"]),
+        "transaction_type": random.choice(["Credit", "Debit", "Purchase", "Refund"]),
         "date": fake.date_time_this_year(),
         "description": fake.sentence(nb_words=6),
         "updated_at": pd.Timestamp.now(),
@@ -135,9 +122,16 @@ for table_name, df in dataframes.items():
         df.to_sql(
             table_name, source_engine, schema="public", if_exists="replace", index=False
         )
-        df.to_sql(
-            table_name, target_engine, schema="public", if_exists="replace", index=False
+        logging.info(f"Data uploaded to table '{table_name}' in source database.")
+        df.head(0).to_sql(
+            table_name,
+            target_engine,
+            schema="public",
+            if_exists="replace",
+            index=False,
+            method="multi",
         )
-        logging.info(f"Data uploaded to table '{table_name}' in both databases.")
+        logging.info(f"Created empty table '{table_name}' in target database.")
+
     except Exception as e:
         logging.error(f"Error uploading data to PostgreSQL: {e}")

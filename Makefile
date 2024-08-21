@@ -17,30 +17,48 @@ stop:
 clean: stop
 	$(DOCKER_COMPOSE) down --rmi all --volumes --remove-orphans
 
+# Clean Docker container, build and runs again
+restart: stop
+	$(DOCKER_COMPOSE) down --rmi all --volumes --remove-orphans
+	docker compose build
+	docker compose up
+
 # Insert data into the source database
 insert-data:
-	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/insert_data.py
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/sql/insert_data.py
 
 # Update data in the source database
 update-data:
-	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/update_data.py
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/sql/update_data.py
 
 # Delete data from the source database
 delete-data:
-	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/delete_data.py
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/sql/delete_data.py
 
 # Truncate a table from the source database
 truncate:
-	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/truncate_table.py
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/sql/truncate_table.py
 
 # Creates a table in the source database
 create-table:
-	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/create_table.py
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/sql/create_table.py
 
 # Drops a table from the source database
 drop-table:
-	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/drop_table.py
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/sql/drop_table.py
 
 # Adds a column to a table from the source database
 add-column:
-	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/add_column.py
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/sql/add_column.py
+
+# Enables CDC Logical Replication for both nodes
+cdc-logical-replication:
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/cdc_logical_replication.py
+
+# Enables CDC pglogical plugin for both nodes
+cdc-pglogical:
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/cdc_pglogical.py
+
+# Enables CDC Airbyte config for both nodes
+cdc-airbyte:
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/cdc_airbyte.py

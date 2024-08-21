@@ -12,6 +12,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application code into the container
 COPY generate_data.py .
+COPY add_pks.py .
 COPY .env .
 
 # Run historical_data.py when the container launches

@@ -1,14 +1,14 @@
 import psycopg2
 import logging
 from dotenv import load_dotenv
-from scripts.utils import connect_to_db
-from scripts.utils import logging_setup
+from scripts.sql.utils import connect_to_db
+from scripts.sql.utils import logging_setup
 
 load_dotenv()
 logging_setup()
 
 
-def add_id_column(conn):
+def add_id_column(conn, db):
     with conn.cursor() as cur:
         # Get the list of tables in the database
         cur.execute(
@@ -29,7 +29,6 @@ def add_id_column(conn):
                     (table_name,),
                 )
                 if cur.fetchone() is None:
-                    logging.info(f"Adding 'id' column to table '{table_name}'.")
                     # Add ID column and set it as PRIMARY KEY
                     cur.execute(
                         f"""
@@ -38,7 +37,7 @@ def add_id_column(conn):
                     """
                     )
                     logging.info(
-                        f"Added 'id' column to table '{table_name}' and set it as PRIMARY KEY."
+                        f"Added 'id' column to table '{table_name}' and set it as PRIMARY KEY in {db} database."
                     )
                 else:
                     logging.info(f"'id' column already exists in table '{table_name}'.")
@@ -52,5 +51,8 @@ def add_id_column(conn):
 
 if __name__ == "__main__":
     conn = connect_to_db("SOURCE")
-    add_id_column(conn)
+    add_id_column(conn, "SOURCE")
+    conn.close()
+    conn = connect_to_db("TARGET")
+    add_id_column(conn, "TARGET")
     conn.close()

@@ -1,6 +1,7 @@
 import psycopg2
 import os
 import random
+from faker import Faker
 from datetime import datetime, timedelta
 import logging
 from dotenv import load_dotenv
@@ -9,6 +10,7 @@ from utils import logging_setup
 
 load_dotenv()
 logging_setup()
+fake = Faker()
 
 
 def insert_product(conn, num_records):
@@ -20,12 +22,12 @@ def insert_product(conn, num_records):
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             """,
                 (
-                    f"PROD-{random.randint(1000, 9999)}",
-                    f"Product {random.randint(1, 100)}",
+                    fake.uuid4(),
+                    fake.word().capitalize(),
                     random.choice(["Electronics", "Clothing", "Books", "Food"]),
                     random.uniform(10, 1000),
                     random.randint(0, 1000),
-                    "Product description",
+                    fake.sentence(nb_words=6),
                     datetime.now(),
                     datetime.now(),
                 ),
@@ -43,13 +45,13 @@ def insert_transaction(conn, num_records):
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
             """,
                 (
-                    f"TRX-{random.randint(10000, 99999)}",
-                    f"USER-{random.randint(1000, 9999)}",
-                    f"PROD-{random.randint(1000, 9999)}",
+                    fake.uuid4(),
+                    fake.uuid4(),
+                    fake.uuid4(),
                     random.uniform(10, 1000),
-                    random.choice(["Purchase", "Refund"]),
+                    random.choice(["Credit", "Debit", "Purchase", "Refund"]),
                     datetime.now() - timedelta(days=random.randint(0, 365)),
-                    "Transaction description",
+                    fake.sentence(nb_words=6),
                     datetime.now(),
                 ),
             )
@@ -66,12 +68,12 @@ def insert_user_profile(conn, num_records):
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             """,
                 (
-                    f"USER-{random.randint(1000, 9999)}",
-                    f"User {random.randint(1, 100)}",
-                    f"user{random.randint(100, 999)}",
-                    f"user{random.randint(100, 999)}@example.com",
-                    "123 Main St, City, Country",
-                    f"+1-555-{random.randint(1000000, 9999999)}",
+                    fake.uuid4(),
+                    fake.name(),
+                    fake.user_name(),
+                    fake.email(),
+                    fake.address(),
+                    fake.phone_number(),
                     datetime.now() - timedelta(days=random.randint(365 * 18, 365 * 80)),
                     datetime.now(),
                     datetime.now(),
