@@ -7,16 +7,17 @@ This repo is a portable sample project for running CDC with Logical Replication.
 You can find pre-made scripts to run inserts, deletes and updates just by passing `NUM_RECORDS` env var to the `make` commands. Whenever you use that command, it will randomize the amount of actions between 1 and your number.
 
 ### 🙋🏻‍♂️ Pre-requesites:
-- Copy .env.example and rename to .env to set your credentials for the databases.
+- Copy `.env.example` and rename to `.env` to set your credentials for the databases.
 - Docker Desktop
 
 ## 📝 Considerations:
 
 - You need PRIMARY KEYs on the TABLES you want to replicate. Not views.
 - By default, it will do a full snapshot or the current table. You can disable this by using `copy_data=false` in [`cdc_logical_replication.py`](https://github.com/aboyalejandro/change_data_capture_tutorial/blob/dfbd3f8201989c58e48425d5be4c7afd2a4cf57f/scripts/cdc_logical_replication.py#L59).
-- INSERT, UPDATE, DELETE, TRUNCATE work properly. It doesn’t replicate the schema or DDL nor sequences.
-- If you have ALL TABLES included in your publication and you create a table, you need to also add it on the target database, otherwise it will just ignore it. 
+- `INSERT`, `UPDATE`, `DELETE`, `TRUNCATE` work properly.
+- This feature doesn’t replicate sequences, DDLs or schemas.
 - Schema changes are ignored. Adding or dropping columns will do nothing. Afterwards the replication will be broken.
+- If you have `ALL TABLES` included in your publication and you create a table, you need to also add it on the target database, otherwise it will just ignore it. 
 
 To run the project, you can do: 
 
@@ -31,10 +32,18 @@ Docker will start by default with the wal_level set as 'logical'. Open another t
 ```sh 
 make cdc-logical-replication
 ```
+This will the following things on each side:
+
+- **Source/Publisher**
+  - Check if a replication slot exists.
+  - Create a replication slot.
+  - Create a publication.
+- **Target/Subscriber**
+  - Create a subscription to the publisher.
 
 ## 🔃 Make changes:
 
-This scripts will run INSERT, UPDATE, DELETE to the 3 generated tables on initialization.  
+This scripts will run `INSERT`, `UPDATE`, `DELETE` to the 3 generated tables on `generate_data.py`.   
 
 ```sh 
 NUM_RECORDS=500 make insert-data 
@@ -43,12 +52,12 @@ NUM_RECORDS=500 make update-data
 make truncate
 ```
 
-Or you can run the commands yourself if you prefer.
+Or you can run single commands directly on the source database if you prefer. 
 
 ## ✅ Check with queries (Source):
 To query databases like to use DBeaver, but you can use VSCode or psql if you prefer. 
 
-Validate the CDC is OK on the Source/Publisher side. You should see the listed tables you are replicating and the `cdc_tutorial_slot`:
+Validate the CDC process is OK is OK on the Source/Publisher side. You should see the listed tables you are replicating and the `cdc_tutorial_slot`:
 
 ```sql
 select * from pg_publication_tables;
@@ -57,19 +66,19 @@ select * from pg_replication_slots;
 
 ## ✅ Check with queries (Target):
 
-Validate the CDC is OK on the Target/Subscriber side. You should see the listed subscription and the released changes in real-time on each table:
+Validate the CDC is OK on the Target/Subscriber side. You should see the listed subscription:
 
 ```sql
 select * from pg_subscription;
 ```
-Count rows after inserts or deletes:
+Count rows after running `INSERT` or `DELETE` in real-time:
 
 ```sql
 select count(*) from products;
 select count(*) from user_profiles;
 select count(*) from transactions;
 ```
-Validate updates:
+Validate after `UPDATE`:
 
 ```sql
 select max(updated_at) from products;
