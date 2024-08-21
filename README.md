@@ -1,10 +1,12 @@
 # 🔃 Change Data Capture (CDC) using Logical Replication in PostgreSQL
 
-This repo is portable sample projects for running CDC with Logical Replication. In just a few commands you can test the capabilities of this built-in Postgres features and extend it as you please.
+Are you exploring CDC open-source solutions or just interested on checking how it works❓
 
-The repo scripts provide use-cases to run as much inserts, deleted and update you want just by passing `NUM_RECORDS` env var to the `make` commands. Whenever you use that command, it will randomize the amount of actions between 1 and your number.
+This repo is a portable sample project for running CDC with Logical Replication. In just a few commands you can test the capabilities of this built-in Postgres features and extend it as you please.
 
-🙋🏻‍♂️ Pre-requesites:
+You can find pre-made scripts to run inserts, deletes and updates just by passing `NUM_RECORDS` env var to the `make` commands. Whenever you use that command, it will randomize the amount of actions between 1 and your number.
+
+### 🙋🏻‍♂️ Pre-requesites:
 - Copy .env.example and set your credentials for the databases.
 - Docker Desktop
 
@@ -25,7 +27,7 @@ NUM_RECORDS=10000 make run #Default to 5000 if not specified
 ```
 
 ## 🚀 Start CDC:
-Docker will start by default with the wal_level set as 'logical'.
+Docker will start by default with the wal_level set as 'logical'. Open another terminal and run:
 
 ```sh 
 make cdc-logical-replication
@@ -76,13 +78,14 @@ select max(updated_at) from transactions t ;
 
 ## 🔨 Break the replication: 
 
-Note: Note that the scripts is limited to truncate, drop, insert, update or delete `transactions`, `products` and `user_profiles`. If you ended up dropping all the tables, you can do Ctrl+C and `make restart`to spin-up the project again. 
+Note: The scripts is limited to truncate, drop, insert, update or delete `transactions`, `products` and `user_profiles`. If you ended up dropping all the tables, you can do Ctrl+C and `make restart` to spin-up the project again. 
 
 ```sh
 make create-table # will be ignored, replication will continue
 make drop-table # breaks the replication if it was included in the publication, if not it will go on.
 make add-column # same as drop-table
 ```
+Remember to always check on Target Database if the changes are resulting or not.
 
 ### 😎 [Follow me on Linkedin](https://www.linkedin.com/in/alejandro-aboy/)
 - Get tips, learnings and tricks for your Data career!
