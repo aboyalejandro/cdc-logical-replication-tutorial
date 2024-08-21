@@ -1,10 +1,10 @@
 # 🔃 Change Data Capture (CDC) using Logical Replication in PostgreSQL
 
-Pre-requesites:
+🙋🏻‍♂️ Pre-requesites:
 - Copy .env.example and set your credentials for the databases.
 - Docker Desktop
 
-## 📝 Considerations:
+## 📝 Considerations:
 
 - You need PKs.
 - INSERT, UPDATE, DELETE, TRUNCATE work good.
@@ -19,14 +19,16 @@ make build
 NUM_RECORDS=10000 make run #Default to 5000 if not specified
 ```
 
-## 🚀 Start CDC:
-Docker will start by default with the wal_level set as 'logical'
+## 🚀 Start CDC:
+Docker will start by default with the wal_level set as 'logical'.
 
 ```sh 
 make cdc-logical-replication
 ```
 
-## 🔃 Make changes:
+## 🔃 Make changes:
+
+This scripts will run INSERT, UPDATE, DELETE to the 3 generated tables on initialization.  
 
 ```sh 
 NUM_RECORDS=50 make insert-data 
@@ -37,29 +39,31 @@ make truncate
 
 Or you can run the commands yourself if you prefer.
 
-## ✅ Check (Source):
+## ✅ Check (Source):
+Validate the CDC is OK on the Source/Publisher side. You should see the listed tables you are replicating and the `cdc_tutorial_slot`:
 
 ```sql
 select * from pg_publication_tables;
 select * from pg_replication_slots;
 ```
 
-## ✅ Check (Target):
+## ✅ Check (Target):
+
+Validate the CDC is OK on the Target/Subscriber side. You should see the listed subscription and the released changes in real-time on each table:
 
 ```sql
 select * from pg_subscription;
+```
+Count rows after inserts or deletes:
 
--- Overall table
-select * from products;
-select * from user_profiles up ;
-select * from transactions t ;
-
--- Count rows 
+```sql
 select count(*) from products;
 select count(*) from user_profiles up ;
 select count(*) from transactions t ;
+```
+Validate updates:
 
--- Check updates, inserts
+```sql
 select max(updated_at) from products;
 select max(updated_at) from user_profiles up ;
 select max(updated_at) from transactions t ;
@@ -70,7 +74,7 @@ select max(updated_at) from transactions t ;
 Note: You might want to run make clean, make build and make run to restart the project if you want to keep testing.
 
 ```sh
-make create-table # will be ignored, replication can continue)
+make create-table # will be ignored, replication will continue
 make drop-table # breaks the replication if it was included in the publication, if not it will go on.
 make add-column # same as drop-table
 ```
