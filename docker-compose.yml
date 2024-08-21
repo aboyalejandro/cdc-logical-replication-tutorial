@@ -37,12 +37,10 @@ services:
       - source_db
       - target_db
     volumes:
-      - ./:/app
+      - ./scripts:/app/scripts
 
   cdc_scripts: 
-    build:
-      context: .
-      dockerfile: ./scripts/Dockerfile
+    build: .
     env_file:
       - .env
     environment:

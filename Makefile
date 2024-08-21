@@ -54,11 +54,3 @@ add-column:
 # Enables CDC Logical Replication for both nodes
 cdc-logical-replication:
 	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/cdc_logical_replication.py
-
-# Enables CDC pglogical plugin for both nodes
-cdc-pglogical:
-	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/cdc_pglogical.py
-
-# Enables CDC Airbyte config for both nodes
-cdc-airbyte:
-	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/cdc_airbyte.py

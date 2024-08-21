@@ -7,7 +7,7 @@ This repo is a portable sample project for running CDC with Logical Replication.
 You can find pre-made scripts to run inserts, deletes and updates just by passing `NUM_RECORDS` env var to the `make` commands. Whenever you use that command, it will randomize the amount of actions between 1 and your number.
 
 ### 🙋🏻‍♂️ Pre-requesites:
-- Copy .env.example and set your credentials for the databases.
+- Copy .env.example and rename to .env to set your credentials for the databases.
 - Docker Desktop
 
 ## 📝 Considerations:
