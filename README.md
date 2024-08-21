@@ -48,6 +48,7 @@ Or you can run the commands yourself if you prefer.
 
 ## ✅ Check with queries (Source):
 To query databases like to use DBeaver, but you can use VSCode or psql if you prefer. 
+
 Validate the CDC is OK on the Source/Publisher side. You should see the listed tables you are replicating and the `cdc_tutorial_slot`:
 
 ```sql
