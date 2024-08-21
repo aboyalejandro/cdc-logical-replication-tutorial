@@ -1,6 +1,6 @@
 # Logical Replication with PostgreSQL
 
-## Considerations:
+## Considerations:
 
 - You need PKs.
 - INSERT, UPDATE, DELETE, TRUNCATE work good.
@@ -14,12 +14,12 @@ make build
 NUM_RECORDS=10000 make run #Default to 5000 if not specified
 
 
-## Start CDC:
+## Start CDC:
 Docker will start by default with the wal_level set as 'logical'
 
 make cdc-logical-replication
 
-## Make changes:
+## Make changes:
 
 Or you can run the commands yourself if you prefer.
 
@@ -28,12 +28,12 @@ NUM_RECORDS=50 make delete-data
 NUM_RECORDS=50 make update-data
 make truncate
 
-## Check (Source):
+## Check (Source):
 
 select * from pg_publication_tables;
 select * from pg_replication_slots;
 
-## Check (Target):
+## Check (Target):
 
 select * from pg_subscription;
 
