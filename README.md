@@ -1,12 +1,17 @@
 # 🔃 Change Data Capture (CDC) using Logical Replication in PostgreSQL
 
+This repo is portable sample projects for running CDC with Logical Replication. In just a few commands you can test the capabilities of this built-in Postgres features and extend it as you please.
+
+The repo scripts provide use-cases to run as much inserts, deleted and update you want just by passing `NUM_RECORDS` env var to the `make` commands. Whenever you use that command, it will randomize the amount of actions between 1 and your number.
+
 🙋🏻‍♂️ Pre-requesites:
 - Copy .env.example and set your credentials for the databases.
 - Docker Desktop
 
 ## 📝 Considerations:
 
-- You need PKs.
+- You need PRIMARY KEYs on the TABLES you want to replicate. Not views.
+- By default, it will do a full snapshot or the current table. You can disable this by using copy_data=false in `cdc_logical_replication.py`.
 - INSERT, UPDATE, DELETE, TRUNCATE work good.
 It doesn’t replicate the schema or DDL nor sequences.
 - If you have ALL TABLES included in your publication and you create a table, you need to also to it on the target database. Otherwise it will just ignore it. 
