@@ -2,11 +2,9 @@ import psycopg2
 import os
 import logging
 import random
-from dotenv import load_dotenv
 from utils import connect_to_db
 from utils import logging_setup
 
-load_dotenv()
 logging_setup()
 
 

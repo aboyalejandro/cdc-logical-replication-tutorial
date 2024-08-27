@@ -1,10 +1,8 @@
 import psycopg2
 import logging
-from dotenv import load_dotenv
 from sql.utils import connect_to_db
 from sql.utils import logging_setup
 
-load_dotenv()
 logging_setup()
 
 

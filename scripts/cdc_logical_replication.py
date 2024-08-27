@@ -2,11 +2,9 @@ import psycopg2
 import logging
 import os
 import time
-from dotenv import load_dotenv
 from sql.utils import connect_to_db
 from sql.utils import logging_setup
 
-load_dotenv()
 logging_setup()
 
 
@@ -56,7 +54,7 @@ def cdc_setup(db, conn):
                 logging.info(f"Setting up Logical Replication on {db.upper()} node...")
                 cur.execute(
                     f"""
-                        CREATE SUBSCRIPTION cdc_tutorial_subscription CONNECTION 'host={os.getenv("POSTGRES_SOURCE_HOST")} port=5432 dbname={os.getenv("POSTGRES_SOURCE_DB_NAME")} user={os.getenv("POSTGRES_SOURCE_USER")} password={os.getenv("POSTGRES_SOURCE_PASSWORD")}' PUBLICATION cdc_tutorial_pub WITH (copy_data=true, create_slot=false, enabled=true, slot_name=cdc_tutorial_slot);
+                        CREATE SUBSCRIPTION cdc_tutorial_subscription CONNECTION 'host={os.environ["POSTGRES_SOURCE_HOST"]} port=5432 dbname={os.environ["POSTGRES_SOURCE_DB_NAME"]} user={os.environ["POSTGRES_SOURCE_USER"]} password={os.environ["POSTGRES_SOURCE_PASSWORD"]}' PUBLICATION cdc_tutorial_pub WITH (copy_data=true, create_slot=false, enabled=true, slot_name=cdc_tutorial_slot);
                     """
                 )
                 conn.commit()

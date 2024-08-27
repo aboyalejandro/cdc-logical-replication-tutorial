@@ -4,11 +4,9 @@ import random
 from faker import Faker
 from sqlalchemy import create_engine
 import logging
-from dotenv import load_dotenv
 
 
 fake = Faker()
-load_dotenv()
 
 # Set up logging
 logging.basicConfig(
@@ -94,10 +92,10 @@ transactions_df = pd.DataFrame(transactions)
 
 # Function to construct database URLs
 def get_db_url(prefix):
-    user = os.getenv(f"POSTGRES_{prefix}_USER")
-    password = os.getenv(f"POSTGRES_{prefix}_PASSWORD")
-    host = os.getenv(f"POSTGRES_{prefix}_HOST")
-    db_name = os.getenv(f"POSTGRES_{prefix}_DB_NAME")
+    user = os.environ[f"POSTGRES_{prefix}_USER"]
+    password = os.environ[f"POSTGRES_{prefix}_PASSWORD"]
+    host = os.environ[f"POSTGRES_{prefix}_HOST"]
+    db_name = os.environ[f"POSTGRES_{prefix}_DB_NAME"]
     return f"postgresql://{user}:{password}@{host}:5432/{db_name}"
 
 

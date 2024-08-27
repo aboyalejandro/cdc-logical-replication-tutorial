@@ -4,11 +4,9 @@ import random
 from faker import Faker
 from datetime import datetime, timedelta
 import logging
-from dotenv import load_dotenv
 from utils import connect_to_db
 from utils import logging_setup
 
-load_dotenv()
 logging_setup()
 fake = Faker()
 

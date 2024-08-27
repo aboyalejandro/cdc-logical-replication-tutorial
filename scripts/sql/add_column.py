@@ -1,13 +1,11 @@
 import psycopg2
 import random
 import logging
-from dotenv import load_dotenv
 from utils import connect_to_db
 from utils import logging_setup
 from utils import find_tables
 
 logging_setup()
-load_dotenv()
 
 
 def add_column_to_random_table(conn):
