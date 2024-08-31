@@ -32,7 +32,7 @@ Docker will start by default with the wal_level set as 'logical'. Open another t
 ```sh 
 make cdc-logical-replication
 ```
-This will the following things on each side:
+This will apply the following things on each side:
 
 - **Source/Publisher**
   - Check if a replication slot exists.
@@ -43,7 +43,7 @@ This will the following things on each side:
 
 ## 🔃 Make changes:
 
-This scripts will run `INSERT`, `UPDATE`, `DELETE` to the 3 generated tables on `generate_data.py`.   
+These scripts will run `INSERT`, `UPDATE`, `DELETE` to the 3 generated tables on `generate_data.py`.   
 
 ```sh 
 NUM_RECORDS=500 make insert-data 
