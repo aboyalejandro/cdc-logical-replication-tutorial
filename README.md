@@ -94,9 +94,15 @@ Note: The scripts are limited to `TRUNCATE`, `DROP`, `INSERT`, `UPDATE` or `DELE
 ```sh
 make create-table 
 make drop-table 
+```
+
+You should this next to each other since the 'subtype' column will be removed:
+
+```sh
 make add-column 
 make drop-column 
 ```
+
 Remember to always check on Target Database if the changes are resulting or not.
 
 ### 😎 [Follow me on Linkedin](https://www.linkedin.com/in/alejandro-aboy/)
