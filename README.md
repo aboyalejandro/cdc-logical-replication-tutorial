@@ -18,6 +18,7 @@ You can find pre-made scripts to run inserts, deletes and updates just by passin
 - This feature doesn’t replicate sequences, DDLs or schemas.
 - Schema changes are ignored. Adding or dropping columns will do nothing. Afterwards the replication will be broken.
 - If you have `ALL TABLES` included in your publication and you create a table, you need to also add it on the target database, otherwise it will just ignore it. 
+- If you have `ALL TABLES` included in your publication and you drop a table, replication will be broken.
 
 To run the project, you can do: 
 
@@ -91,9 +92,10 @@ select max(updated_at) from transactions;
 Note: The scripts are limited to `TRUNCATE`, `DROP`, `INSERT`, `UPDATE` or `DELETE` `transactions`, `products` and `user_profiles`. `CREATE TABLE` will add a new table randomly. If you ended up dropping all the tables, you can do Ctrl+C and `make restart` to spin-up the project again. 
 
 ```sh
-make create-table # will be ignored, replication will continue
-make drop-table # breaks the replication if it was included in the publication, if not it will go on.
-make add-column # same as drop-table
+make create-table 
+make drop-table 
+make add-column 
+make drop-column 
 ```
 Remember to always check on Target Database if the changes are resulting or not.
 

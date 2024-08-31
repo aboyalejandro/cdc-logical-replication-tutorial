@@ -47,6 +47,11 @@ drop-table:
 add-column:
 	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/sql/add_column.py
 
+# Drops a column to a table from the source database
+drop-column:
+	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/sql/drop_column.py
+
+
 # Enables CDC Logical Replication for both nodes
 cdc-logical-replication:
 	$(DOCKER_COMPOSE) run --rm cdc_scripts python /app/scripts/cdc_logical_replication.py
