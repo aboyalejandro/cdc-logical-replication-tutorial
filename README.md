@@ -99,7 +99,8 @@ make drop-table
 If you don't have the publication set for ALL TABLES, you should follow this process after creating a new table:
 
 ```sql
-ALTER PUBLICATION cdc_tutorial ADD/DROP TABLE stores;
+ALTER PUBLICATION cdc_tutorial ADD TABLE stores;
+ALTER PUBLICATION cdc_tutorial DROP TABLE stores;
 ```
 
 You should this next to each other since the 'subtype' column will be removed:
